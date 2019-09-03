@@ -1,4 +1,4 @@
-// made by Anilabha Baral
+//$$ Created By Anilabha Baral $$//
 #include<iostream>
 #include<stdio.h>
 using namespace std;
@@ -71,7 +71,7 @@ void print_treeinorder(Node *root)
 {
     if (root==NULL)
     {
-        return;
+        return ;
     }
     else
     {
@@ -82,6 +82,7 @@ void print_treeinorder(Node *root)
         print_treeinorder(root->right);
 
     }
+    
 }
 
 Node *findmin_value(Node *root){
@@ -115,6 +116,41 @@ else {
 }
 
 }
+Node *deleteNode(Node *root,int value){
+if (root == NULL){
+    return root;
+}
+if (value<root->value){
+    root->left=deleteNode(root->left,value);
+}
+else if (value>root->value){
+    root->right=deleteNode(root->right,value);
+}
+else {
+    if (root->left==NULL){
+        Node *temp=root->right;
+        free(root);
+        return temp;
+    }
+    else if (root->right==NULL){
+        Node *temp=root->left;
+        free(root);
+        return temp;
+    }
+    else{
+        Node *temp=findmin_value(root->right);
+        root->value=temp->value;
+        root->right=deleteNode(root->right,temp->value);
+    }
+
+
+}
+return root;
+
+}
+
+
+
 
 int main()
 {
@@ -144,6 +180,10 @@ cout<<"Min value="<<findmin_value(root)->value;
 cout<<"max value="<<findmax(root)->value;
 cout<<"\n";
 cout<<"size of tree = "<<size(root);
+deleteNode(root,9);
+cout<<"\npost-order after delete\n";
+        print_treepostorder(root);
+
 
 
     return 0;
